@@ -1,0 +1,86 @@
+/* App.css */
+.MuiTableContainer-root {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.MuiTableHead-root {
+  background-color: #f5f5f5;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.MuiDialog-paper {
+  border-radius: 12px;
+}
+
+.MuiChip-root {
+  font-weight: 500;
+}
+
+.MuiButton-contained {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 600;
+}
+
+.MuiCard-root {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.MuiCard-root:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Styles pour les formulaires */
+.MuiTextField-root,
+.MuiFormControl-root {
+  margin-bottom: 16px;
+}
+
+/* Animation pour les boutons */
+.MuiButton-root {
+  transition: all 0.2s ease;
+}
+
+.MuiButton-root:hover {
+  transform: translateY(-1px);
+}
+
+/* Styles pour les alertes */
+.MuiAlert-root {
+  border-radius: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .MuiTableContainer-root {
+    overflow-x: auto;
+  }
+  
+  .MuiTableCell-root {
+    padding: 8px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
