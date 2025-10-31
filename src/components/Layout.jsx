@@ -26,6 +26,7 @@ import {
   FamilyRestroom as FamilyIcon,
   Receipt as BulletinIcon,
   Assignment as DetailIcon,
+  LocationOn as AddressIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -44,6 +45,7 @@ const menuItems = [
   { text: 'Parent-Élève', icon: <FamilyIcon />, path: '/parent-eleve' },
   { text: 'Bulletins', icon: <BulletinIcon />, path: '/bulletins' },
   { text: 'Détails Bulletins', icon: <DetailIcon />, path: '/detail-bulletins' },
+  { text: 'Adresses Élèves', icon: <AddressIcon />, path: '/adresses-eleves' },
   { text: 'Diagnostic', icon: <SettingsIcon />, path: '/status' },
 ];
 

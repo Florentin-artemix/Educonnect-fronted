@@ -92,29 +92,29 @@ export const bulletinAPI = {
 
 // Parent Eleve API
 export const parentEleveAPI = {
-  getAll: () => api.get('/parent-eleves'),
-  getById: (id) => api.get(`/parent-eleves/${id}`),
-  create: (data) => api.post('/parent-eleves', data),
-  update: (id, data) => api.patch(`/parent-eleves/${id}`, data),
-  delete: (id) => api.delete(`/parent-eleves/${id}`),
+  getAll: () => api.get('/parents-eleves'),
+  getById: (id) => api.get(`/parents-eleves/${id}`),
+  create: (data) => api.post('/parents-eleves', data),
+  update: (id, data) => api.patch(`/parents-eleves/${id}`, data),
+  delete: (id) => api.delete(`/parents-eleves/${id}`),
 };
 
 // Detail Bulletins API
 export const detailBulletinAPI = {
-  getAll: () => api.get('/detail-bulletins'),
-  getById: (id) => api.get(`/detail-bulletins/${id}`),
-  create: (data) => api.post('/detail-bulletins', data),
-  update: (id, data) => api.patch(`/detail-bulletins/${id}`, data),
-  delete: (id) => api.delete(`/detail-bulletins/${id}`),
+  getAll: () => api.get('/details-bulletins'),
+  getById: (id) => api.get(`/details-bulletins/${id}`),
+  create: (data) => api.post('/details-bulletins', data),
+  update: (id, data) => api.patch(`/details-bulletins/${id}`, data),
+  delete: (id) => api.delete(`/details-bulletins/${id}`),
 };
 
 // Adresse Eleve API
 export const adresseEleveAPI = {
-  getAll: () => api.get('/adresse-eleves'),
-  getById: (id) => api.get(`/adresse-eleves/${id}`),
-  create: (data) => api.post('/adresse-eleves', data),
-  update: (id, data) => api.patch(`/adresse-eleves/${id}`, data),
-  delete: (id) => api.delete(`/adresse-eleves/${id}`),
+  getAll: () => api.get('/adresses-eleves'),
+  getById: (id) => api.get(`/adresses-eleves/${id}`),
+  create: (data) => api.post('/adresses-eleves', data),
+  update: (id, data) => api.patch(`/adresses-eleves/${id}`, data),
+  delete: (id) => api.delete(`/adresses-eleves/${id}`),
 };
 
 export default api;

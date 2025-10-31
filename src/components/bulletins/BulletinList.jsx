@@ -68,6 +68,7 @@ function BulletinList() {
     try {
       const response = await bulletinAPI.getAll();
       console.log('Bulletins récupérés:', response.data);
+      console.log('Structure du premier bulletin:', response.data?.[0]);
       setBulletins(response.data || []);
     } catch (error) {
       console.error('Erreur lors du chargement des bulletins:', error);
@@ -252,7 +253,7 @@ function BulletinList() {
             {bulletins.map((bulletin) => (
               <TableRow key={bulletin.id}>
                 <TableCell>
-                  {bulletin.eleveNom} {bulletin.elevePrenom}
+                  {bulletin.nomEleve} {bulletin.prenomEleve}
                 </TableCell>
                 <TableCell>{bulletin.nomClasse}</TableCell>
                 <TableCell>

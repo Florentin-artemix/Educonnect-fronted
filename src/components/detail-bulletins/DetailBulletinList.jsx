@@ -25,7 +25,6 @@ import {
   Chip,
   Card,
   CardContent,
-  Grid,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -48,10 +47,9 @@ function DetailBulletinList() {
     bulletinId: '',
     coursId: '',
     noteId: '',
-    moyenne: '',
+    noteObtenue: '',
     ponderation: '',
     moyennePonderee: '',
-    appreciationMatiere: '',
   });
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
@@ -86,6 +84,8 @@ function DetailBulletinList() {
   const fetchCours = async () => {
     try {
       const response = await coursAPI.getAll();
+      console.log('Cours récupérés:', response.data);
+      console.log('Structure du premier cours:', response.data?.[0]);
       setCours(response.data || []);
     } catch (error) {
       console.error('Erreur lors du chargement des cours:', error);
@@ -110,10 +110,9 @@ function DetailBulletinList() {
         bulletinId: detail.bulletinId || '',
         coursId: detail.coursId || '',
         noteId: detail.noteId || '',
-        moyenne: detail.moyenne || '',
+        noteObtenue: detail.noteObtenue || '',
         ponderation: detail.ponderation || '',
         moyennePonderee: detail.moyennePonderee || '',
-        appreciationMatiere: detail.appreciationMatiere || '',
       });
     } else {
       setEditingDetail(null);
@@ -121,10 +120,9 @@ function DetailBulletinList() {
         bulletinId: selectedBulletin || '',
         coursId: '',
         noteId: '',
-        moyenne: '',
+        noteObtenue: '',
         ponderation: '',
         moyennePonderee: '',
-        appreciationMatiere: '',
       });
     }
     setOpen(true);
@@ -144,12 +142,12 @@ function DetailBulletinList() {
       };
       
       // Calcul automatique de la moyenne pondérée
-      if (name === 'moyenne' || name === 'ponderation') {
-        const moyenne = parseFloat(name === 'moyenne' ? value : newData.moyenne);
+      if (name === 'noteObtenue' || name === 'ponderation') {
+        const noteObtenue = parseFloat(name === 'noteObtenue' ? value : newData.noteObtenue);
         const ponderation = parseFloat(name === 'ponderation' ? value : newData.ponderation);
         
-        if (!isNaN(moyenne) && !isNaN(ponderation) && ponderation > 0) {
-          newData.moyennePonderee = (moyenne * ponderation / 100).toFixed(2);
+        if (!isNaN(noteObtenue) && !isNaN(ponderation) && ponderation > 0) {
+          newData.moyennePonderee = (noteObtenue * ponderation / 20).toFixed(2);
         }
       }
       
@@ -159,8 +157,8 @@ function DetailBulletinList() {
 
   const handleSubmit = async () => {
     try {
-      if (!formData.bulletinId || !formData.coursId) {
-        showSnackbar('Veuillez remplir les champs obligatoires', 'error');
+      if (!formData.bulletinId || !formData.coursId || !formData.noteObtenue || !formData.ponderation) {
+        showSnackbar('Veuillez remplir tous les champs obligatoires', 'error');
         return;
       }
 
@@ -168,10 +166,9 @@ function DetailBulletinList() {
         bulletinId: parseInt(formData.bulletinId),
         coursId: parseInt(formData.coursId),
         noteId: formData.noteId ? parseInt(formData.noteId) : null,
-        moyenne: formData.moyenne ? parseFloat(formData.moyenne) : null,
-        ponderation: formData.ponderation ? parseFloat(formData.ponderation) : null,
+        noteObtenue: parseFloat(formData.noteObtenue),
+        ponderation: parseInt(formData.ponderation),
         moyennePonderee: formData.moyennePonderee ? parseFloat(formData.moyennePonderee) : null,
-        appreciationMatiere: formData.appreciationMatiere || null,
       };
 
       console.log('📤 Données détail bulletin à envoyer:', submitData);
@@ -211,11 +208,11 @@ function DetailBulletinList() {
     setSnackbar({ open: true, message, severity });
   };
 
-  const getMoyenneColor = (moyenne) => {
-    if (!moyenne) return 'default';
-    if (moyenne >= 16) return 'success';
-    if (moyenne >= 12) return 'primary';
-    if (moyenne >= 10) return 'warning';
+  const getNoteColor = (note) => {
+    if (!note) return 'default';
+    if (note >= 16) return 'success';
+    if (note >= 12) return 'primary';
+    if (note >= 10) return 'warning';
     return 'error';
   };
 
@@ -292,12 +289,12 @@ function DetailBulletinList() {
               <Box display="flex" alignItems="center" gap={2} mb={2}>
                 <SchoolIcon color="primary" />
                 <Typography variant="h6">
-                  {bulletin ? `${bulletin.eleveNom} ${bulletin.elevePrenom} - ${bulletin.periode}` : `Bulletin ${bulletinId}`}
+                  {bulletin ? `${bulletin.nomEleve} ${bulletin.prenomEleve} - ${bulletin.periode}` : `Bulletin ${bulletinId}`}
                 </Typography>
                 {bulletin && bulletin.moyenneGenerale && (
                   <Chip
-                    label={`Moyenne: ${bulletin.moyenneGenerale.toFixed(2)}/20`}
-                    color={getMoyenneColor(bulletin.moyenneGenerale)}
+                    label={`Moyenne générale: ${bulletin.moyenneGenerale.toFixed(2)}/20`}
+                    color={getNoteColor(bulletin.moyenneGenerale)}
                   />
                 )}
               </Box>
@@ -307,11 +304,10 @@ function DetailBulletinList() {
                   <TableHead>
                     <TableRow>
                       <TableCell>Matière</TableCell>
-                      <TableCell>Note</TableCell>
-                      <TableCell>Moyenne</TableCell>
-                      <TableCell>Pondération</TableCell>
-                      <TableCell>Moyenne pondérée</TableCell>
-                      <TableCell>Appréciation</TableCell>
+                      <TableCell>Note obtenue</TableCell>
+                      <TableCell>Coefficient</TableCell>
+                      <TableCell>Note pondérée</TableCell>
+                      <TableCell>Note liée</TableCell>
                       <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -325,36 +321,10 @@ function DetailBulletinList() {
                           </Box>
                         </TableCell>
                         <TableCell>
-                          {detail.valeurNote ? (
+                          {detail.noteObtenue ? (
                             <Chip
-                              label={`${detail.valeurNote}/20`}
-                              color={getMoyenneColor(detail.valeurNote)}
-                              size="small"
-                            />
-                          ) : (
-                            <Typography variant="caption" color="textSecondary">
-                              Non liée
-                            </Typography>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {detail.moyenne ? (
-                            <Chip
-                              label={`${detail.moyenne.toFixed(2)}/20`}
-                              color={getMoyenneColor(detail.moyenne)}
-                              size="small"
-                            />
-                          ) : (
-                            <Typography variant="caption" color="textSecondary">
-                              Non calculée
-                            </Typography>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {detail.ponderation ? (
-                            <Chip
-                              label={`x${detail.ponderation}`}
-                              color={getPonderationColor(detail.ponderation)}
+                              label={`${detail.noteObtenue}/20`}
+                              color={getNoteColor(detail.noteObtenue)}
                               size="small"
                             />
                           ) : (
@@ -364,8 +334,21 @@ function DetailBulletinList() {
                           )}
                         </TableCell>
                         <TableCell>
+                          {detail.ponderation ? (
+                            <Chip
+                              label={`Coeff ${detail.ponderation}`}
+                              color={getPonderationColor(detail.ponderation)}
+                              size="small"
+                            />
+                          ) : (
+                            <Typography variant="caption" color="textSecondary">
+                              Non défini
+                            </Typography>
+                          )}
+                        </TableCell>
+                        <TableCell>
                           {detail.moyennePonderee ? (
-                            <Typography variant="body2" fontWeight="bold">
+                            <Typography variant="body2" fontWeight="bold" color="primary">
                               {detail.moyennePonderee.toFixed(2)}
                             </Typography>
                           ) : (
@@ -375,9 +358,17 @@ function DetailBulletinList() {
                           )}
                         </TableCell>
                         <TableCell>
-                          <Typography variant="caption" sx={{ maxWidth: 150 }}>
-                            {detail.appreciationMatiere || 'Aucune appréciation'}
-                          </Typography>
+                          {detail.noteId ? (
+                            <Chip
+                              label={`Note #${detail.noteId}`}
+                              color="info"
+                              size="small"
+                            />
+                          ) : (
+                            <Typography variant="caption" color="textSecondary">
+                              Aucune
+                            </Typography>
+                          )}
                         </TableCell>
                         <TableCell>
                           <IconButton 
@@ -451,7 +442,7 @@ function DetailBulletinList() {
                 </MenuItem>
                 {cours.map((cour) => (
                   <MenuItem key={cour.id} value={cour.id}>
-                    {cour.nomCours} - {cour.nomClasse || 'Toutes classes'}
+                    {cour.nom} - {cour.nomClasse} ({cour.nomEnseignant})
                   </MenuItem>
                 ))}
               </Select>
@@ -470,7 +461,7 @@ function DetailBulletinList() {
                 </MenuItem>
                 {notes.map((note) => (
                   <MenuItem key={note.id} value={note.id}>
-                    {note.eleveNom} {note.elevePrenom} - {note.nomCours} - {note.valeur}/20
+                    Note #{note.id} - {note.valeur}/20 ({note.eleveNom} {note.elevePrenom})
                   </MenuItem>
                 ))}
               </Select>
@@ -478,50 +469,42 @@ function DetailBulletinList() {
 
             <Box display="flex" gap={2}>
               <TextField
-                name="moyenne"
-                label="Moyenne de la matière"
+                name="noteObtenue"
+                label="Note obtenue"
                 type="number"
                 inputProps={{ min: 0, max: 20, step: 0.01 }}
-                value={formData.moyenne}
+                value={formData.noteObtenue}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
+                required
+                helperText="Note de l'élève pour cette matière sur 20"
               />
               <TextField
                 name="ponderation"
-                label="Coefficient de pondération"
+                label="Coefficient"
                 type="number"
-                inputProps={{ min: 0, step: 0.1 }}
+                inputProps={{ min: 1, step: 1 }}
                 value={formData.ponderation}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
+                required
+                helperText="Coefficient de la matière"
               />
             </Box>
 
             <TextField
               name="moyennePonderee"
-              label="Moyenne pondérée (calculée automatiquement)"
+              label="Note pondérée (calculée automatiquement)"
               type="number"
               value={formData.moyennePonderee}
-              onChange={handleChange}
-              fullWidth
-              margin="normal"
               InputProps={{
                 readOnly: true,
               }}
-              helperText="Se calcule automatiquement : moyenne × pondération / 100"
-            />
-
-            <TextField
-              name="appreciationMatiere"
-              label="Appréciation de la matière"
-              multiline
-              rows={3}
-              value={formData.appreciationMatiere}
-              onChange={handleChange}
               fullWidth
               margin="normal"
+              helperText="Se calcule automatiquement : (note × coefficient) / 20"
             />
           </Box>
         </DialogContent>

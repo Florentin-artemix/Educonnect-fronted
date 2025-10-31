@@ -18,6 +18,7 @@ import CommunicationList from './components/communications/CommunicationList';
 import ParentEleveList from './components/parents/ParentEleveList';
 import BulletinList from './components/bulletins/BulletinList';
 import DetailBulletinList from './components/detail-bulletins/DetailBulletinList';
+import AdresseEleveList from './components/adresses/AdresseEleveList';
 import StatusCheck from './components/StatusCheck';
 
 const theme = createTheme({
@@ -50,6 +51,7 @@ function App() {
               <Route path="/parent-eleve" element={<ParentEleveList />} />
               <Route path="/bulletins" element={<BulletinList />} />
               <Route path="/detail-bulletins" element={<DetailBulletinList />} />
+              <Route path="/adresses-eleves" element={<AdresseEleveList />} />
               <Route path="/status" element={<StatusCheck />} />
             </Routes>
           </Layout>

@@ -52,6 +52,7 @@ function ParentEleveList() {
     try {
       const response = await parentEleveAPI.getAll();
       console.log('Relations Parent-Élève récupérées:', response.data);
+      console.log('Structure de la première relation:', response.data?.[0]);
       setParentsEleves(response.data || []);
     } catch (error) {
       console.error('Erreur lors du chargement des relations:', error);
@@ -199,11 +200,11 @@ function ParentEleveList() {
             {parentsEleves.map((relation) => (
               <TableRow key={relation.id}>
                 <TableCell>
-                  {relation.parentNom} {relation.parentPrenom}
+                  {relation.nomParent} {relation.prenomParent}
                 </TableCell>
-                <TableCell>{relation.parentEmail}</TableCell>
+                <TableCell>{relation.emailParent}</TableCell>
                 <TableCell>
-                  {relation.eleveNom} {relation.elevePrenom}
+                  {relation.nomEleve} {relation.prenomEleve}
                 </TableCell>
                 <TableCell>
                   <Chip 
