@@ -95,6 +95,14 @@ public class CommunicationController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/types")
+    public ResponseEntity<List<String>> getTypesCommunication() {
+        List<String> types = java.util.Arrays.stream(Communication.TypeCommunication.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(types);
+    }
+
     private CommunicationDTO convertToDTO(Communication communication) {
         return new CommunicationDTO(
             communication.getId(),

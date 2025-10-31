@@ -42,8 +42,8 @@ public class Paiement {
     }
     
     public enum Trimestre {
-        T1,
-        T2,
-        T3
+        TRIMESTRE_1,
+        TRIMESTRE_2,
+        TRIMESTRE_3
     }
 }

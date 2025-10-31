@@ -92,6 +92,14 @@ public class EleveController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/statuts-paiement")
+    public ResponseEntity<List<String>> getStatutsPaiement() {
+        List<String> statuts = java.util.Arrays.stream(Eleve.StatutPaiement.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(statuts);
+    }
+
     private EleveDTO convertToDTO(Eleve eleve) {
         return new EleveDTO(
             eleve.getId(),

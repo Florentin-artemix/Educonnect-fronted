@@ -23,6 +23,9 @@ import {
   Assessment as AssessmentIcon,
   Payment as PaymentIcon,
   Announcement as AnnouncementIcon,
+  FamilyRestroom as FamilyIcon,
+  Receipt as BulletinIcon,
+  Assignment as DetailIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -38,6 +41,9 @@ const menuItems = [
   { text: 'Notes', icon: <AssessmentIcon />, path: '/notes' },
   { text: 'Paiements', icon: <PaymentIcon />, path: '/paiements' },
   { text: 'Communications', icon: <AnnouncementIcon />, path: '/communications' },
+  { text: 'Parent-Élève', icon: <FamilyIcon />, path: '/parent-eleve' },
+  { text: 'Bulletins', icon: <BulletinIcon />, path: '/bulletins' },
+  { text: 'Détails Bulletins', icon: <DetailIcon />, path: '/detail-bulletins' },
   { text: 'Diagnostic', icon: <SettingsIcon />, path: '/status' },
 ];
 

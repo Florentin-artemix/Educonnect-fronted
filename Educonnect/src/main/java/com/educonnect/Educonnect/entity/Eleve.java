@@ -61,7 +61,8 @@ public class Eleve {
     private List<Bulletin> bulletins;
     
     public enum StatutPaiement {
-        EN_ORDRE,
-        NON_EN_ORDRE
+        DEROGATION,
+        NON_EN_ORDRE,
+        EN_ORDRE
     }
 }

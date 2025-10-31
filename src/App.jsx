@@ -15,6 +15,9 @@ import CoursList from './components/cours/CoursList';
 import NoteList from './components/notes/NoteList';
 import PaiementList from './components/paiements/PaiementList';
 import CommunicationList from './components/communications/CommunicationList';
+import ParentEleveList from './components/parents/ParentEleveList';
+import BulletinList from './components/bulletins/BulletinList';
+import DetailBulletinList from './components/detail-bulletins/DetailBulletinList';
 import StatusCheck from './components/StatusCheck';
 
 const theme = createTheme({
@@ -44,6 +47,9 @@ function App() {
               <Route path="/notes" element={<NoteList />} />
               <Route path="/paiements" element={<PaiementList />} />
               <Route path="/communications" element={<CommunicationList />} />
+              <Route path="/parent-eleve" element={<ParentEleveList />} />
+              <Route path="/bulletins" element={<BulletinList />} />
+              <Route path="/detail-bulletins" element={<DetailBulletinList />} />
               <Route path="/status" element={<StatusCheck />} />
             </Routes>
           </Layout>

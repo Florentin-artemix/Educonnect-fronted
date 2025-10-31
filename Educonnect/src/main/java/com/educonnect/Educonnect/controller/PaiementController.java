@@ -86,6 +86,14 @@ public class PaiementController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/trimestres")
+    public ResponseEntity<List<String>> getTrimestres() {
+        List<String> trimestres = java.util.Arrays.stream(Paiement.Trimestre.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(trimestres);
+    }
+
     private PaiementDTO convertToDTO(Paiement paiement) {
         BigDecimal montantRestant = paiement.getMontantTotal() != null && paiement.getMontantPaye() != null
             ? paiement.getMontantTotal().subtract(paiement.getMontantPaye())

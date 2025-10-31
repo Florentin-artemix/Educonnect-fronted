@@ -9,5 +9,5 @@ public record UserUpdateDTO(
     String motDePasse,
     String numeroTelephone,
     String adresse,
-    Set<Long> roleIds
+    Set<String> roles  // Noms des rôles : "ADMIN", "ENSEIGNANT", "PARENT", "PERCEPTEUR"
 ) {}

@@ -21,5 +21,5 @@ public record UserCreateDTO(
     
     String numeroTelephone,
     String adresse,
-    Set<Long> roleIds
+    Set<String> roles  // Noms des rôles : "ADMIN", "ENSEIGNANT", "PARENT", "PERCEPTEUR"
 ) {}

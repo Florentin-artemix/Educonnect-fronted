@@ -56,8 +56,17 @@ public class UserController {
         user.setNumeroTelephone(createDTO.numeroTelephone());
         user.setAdresse(createDTO.adresse());
 
-        if (createDTO.roleIds() != null && !createDTO.roleIds().isEmpty()) {
-            Set<Role> roles = new HashSet<>(roleRepository.findAllById(createDTO.roleIds()));
+        // Traiter les rôles par leurs noms
+        if (createDTO.roles() != null && !createDTO.roles().isEmpty()) {
+            Set<Role> roles = new HashSet<>();
+            for (String roleName : createDTO.roles()) {
+                try {
+                    Role.NomRole nomRole = Role.NomRole.valueOf(roleName.toUpperCase());
+                    roleRepository.findByNomRole(nomRole).ifPresent(roles::add);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Rôle invalide ignoré : " + roleName);
+                }
+            }
             user.setRoles(roles);
         }
 
@@ -72,12 +81,23 @@ public class UserController {
                 if (updateDTO.nom() != null) user.setNom(updateDTO.nom());
                 if (updateDTO.prenom() != null) user.setPrenom(updateDTO.prenom());
                 if (updateDTO.email() != null) user.setEmail(updateDTO.email());
-                if (updateDTO.motDePasse() != null) user.setMotDePasse(updateDTO.motDePasse());
+                if (updateDTO.motDePasse() != null && !updateDTO.motDePasse().trim().isEmpty()) {
+                    user.setMotDePasse(updateDTO.motDePasse()); // TODO: Encoder le mot de passe
+                }
                 if (updateDTO.numeroTelephone() != null) user.setNumeroTelephone(updateDTO.numeroTelephone());
                 if (updateDTO.adresse() != null) user.setAdresse(updateDTO.adresse());
                 
-                if (updateDTO.roleIds() != null) {
-                    Set<Role> roles = new HashSet<>(roleRepository.findAllById(updateDTO.roleIds()));
+                // Traiter les rôles par leurs noms
+                if (updateDTO.roles() != null) {
+                    Set<Role> roles = new HashSet<>();
+                    for (String roleName : updateDTO.roles()) {
+                        try {
+                            Role.NomRole nomRole = Role.NomRole.valueOf(roleName.toUpperCase());
+                            roleRepository.findByNomRole(nomRole).ifPresent(roles::add);
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Rôle invalide ignoré : " + roleName);
+                        }
+                    }
                     user.setRoles(roles);
                 }
 
@@ -99,7 +119,7 @@ public class UserController {
     private UserDTO convertToDTO(User user) {
         Set<Role.NomRole> roleNames = user.getRoles() != null 
             ? user.getRoles().stream()
-                .map(Role::getNom)
+                .map(Role::getNomRole)
                 .collect(Collectors.toSet())
             : new HashSet<>();
 

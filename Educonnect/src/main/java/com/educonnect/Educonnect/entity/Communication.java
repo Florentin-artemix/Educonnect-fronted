@@ -44,8 +44,9 @@ public class Communication {
     }
     
     public enum TypeCommunication {
-        OFFICIEL,
-        PARENT,
-        ENSEIGNANT
+        INFORMATION,
+        ALERTE,
+        RAPPEL,
+        CONVOCATION
     }
 }

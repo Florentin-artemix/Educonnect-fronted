@@ -99,6 +99,15 @@ export const parentEleveAPI = {
   delete: (id) => api.delete(`/parent-eleves/${id}`),
 };
 
+// Detail Bulletins API
+export const detailBulletinAPI = {
+  getAll: () => api.get('/detail-bulletins'),
+  getById: (id) => api.get(`/detail-bulletins/${id}`),
+  create: (data) => api.post('/detail-bulletins', data),
+  update: (id, data) => api.patch(`/detail-bulletins/${id}`, data),
+  delete: (id) => api.delete(`/detail-bulletins/${id}`),
+};
+
 // Adresse Eleve API
 export const adresseEleveAPI = {
   getAll: () => api.get('/adresse-eleves'),
